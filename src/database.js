@@ -55,4 +55,49 @@ const login = async (req) => {
     }
 }
 
-module.exports = { login, register };
+
+//ideaSubmission->schema
+const ideaSchema=new mongoose.Schema({
+    idea:String,
+    descr:String
+});
+//ideaSub->collection
+const ideaSub=mongoose.model('ideaSub',ideaSchema)
+const addIdea=async(req,res)=>{
+    let newIdea=new ideaSub({
+    idea:req.body.idea,
+    descr:req.body.descr
+});
+
+newIdea.save();
+}
+
+ 
+
+
+//updateSubmission->schema
+const updateSubmissionSchema=new mongoose.Schema({
+    updates:String
+});
+//updateSub->collection
+const updateSub=mongoose.model('updateSub',updateSubmissionSchema)
+const addUpdate=async(req,res)=>{
+    let newUpdate=new updateSub({
+    updates:req.body.updates,
+   
+});
+
+newUpdate.save();
+
+}
+const reviewSchema = new mongoose.Schema({
+    studentId: String,
+    review: String
+});
+
+const Review2 = mongoose.model('Review2', reviewSchema);
+
+// newReview.save();
+
+
+module.exports = { login, register,addIdea,addUpdate,Review2};
