@@ -24,23 +24,35 @@ const groupSchema = new mongoose.Schema({
 });
 
 const projectSchema = new mongoose.Schema({
-    projectID : {type : String, required:true, unique: true},
+    projectID : {type : String, required:true},
     facultyID : String,
     groupID : String,
     projectIdea : String,
     projectStatus : String,
     weeklyReportsID : String,
+    latestFacultyReview : String,
+    latestWeeklyReport : String
+});
+
+const weeklyReportSchema = new mongoose.Schema({
+    projectID : String, 
+    facultyID : String,
+    groupID : String,
+    weekNumber : Number,
+    Report : String,
+    Review : String,
+    date : Date,
 });
 
 const Student = mongoose.model('Student', studentSchema);
 const Faculty = mongoose.model('Faculty', facultySchema);
 const Group = mongoose.model('Group', groupSchema);
 const Project = mongoose.model('Project', projectSchema);
+const WeeklyReport = mongoose.model('WeeklyReport', projectSchema);
 
 const register = (req) => {
     if(req.body.type == "Student") {
         const student = new Student ({
-            type : req.body.type,
             ID : req.body.ID,
             name : req.body.name,
             password : req.body.password,
@@ -50,7 +62,6 @@ const register = (req) => {
     }
     else if(req.body.type == "Faculty") {
         const faculty = new Faculty ({
-            type : req.body.type,
             ID : req.body.ID,
             name : req.body.name,
             password : req.body.password,
@@ -70,7 +81,7 @@ const login = async (req) => {
     }
     if(login){
         if(login["password"] == req.body.password){
-            return {status:200, msg:"LoggedIn", type : req.body.type};
+            return {status:200, msg:"LoggedIn", type : req.body.type, ID : login.ID};
         }
         else {
             return {status:400, msg:"Password didn't match"};
@@ -122,4 +133,4 @@ async function getStudentsByFacultyID(facultyID) {
 }
 
 
-module.exports = { login, register, findGroup, getStudentsByFacultyID, Project};
+module.exports = { login, register, findGroup, getStudentsByFacultyID, Project, WeeklyReport };

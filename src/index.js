@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-const { login, register, findGroup, getStudentsByFacultyID, Project} = require('./database.js');
+const { login, register, findGroup, getStudentsByFacultyID, Project, WeeklyReport } = require('./database.js');
 
 //Initializations for express
 const app = express();
@@ -26,16 +26,17 @@ app.get('/', (req, res) => {
 
 app.post('/', async (req,res) => {
     const result = await login(req);
+    console.log(result);
     if(result.status == 200){
         if(result.type == "Faculty"){
-            res.redirect('/faculty');
+            res.redirect(`/faculty/${result.ID}`);
         }
         else if(result.type == "Student") {
             res.redirect('/student');
         }
     }
     else {
-        res.send(status.msg);
+        res.send(result.msg);
     }
 });
 
@@ -45,22 +46,24 @@ app.get('/register', (req, res) => {
 
 app.post('/register', async (req, res) => {
     await register(req);
-    res.send('entry registered');
+    res.send('entry registered proceed to login');
 });
 
-app.get('/faculty', async (req, res) => {
-    const facultyID = "113";
-    const groups = await getStudentsByFacultyID(facultyID);
-    console.log(groups);
-    res.render("faculty", {data : groups});
-});
-
-app.get('/projects/:facultyID', async (req, res) => {
+app.get('/faculty/:facultyID', async (req, res) => {
   try {
     const facultyID = req.params.facultyID;
+    const groups = await getStudentsByFacultyID(facultyID);
     const projects = await Project.find({ facultyID: facultyID });
-    console.log(projects);
-    res.render('projects', { projects: projects });
+    for (let project of projects) {
+        const latestFacultyReview = await WeeklyReport.findOne({ projectID: project.projectID },{Report:1,Review:1,_id:0}).sort({ date: -1 }).limit(1);
+        if(latestFacultyReview){
+                console.log(latestFacultyReview._doc.Review);
+
+        project.latestFacultyReview = latestFacultyReview._doc.Review;
+        project.latestWeeklyReport = latestFacultyReview._doc.Report;
+            }
+    }
+    res.render("faculty", {data : groups, projects : projects});
   } catch (error) {
     console.error("Error fetching projects:", error);
     res.status(500).send("Internal Server Error");
