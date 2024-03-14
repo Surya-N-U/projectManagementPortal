@@ -6,29 +6,6 @@
     <title>Project Details</title>
 </head>
 <body>
-    <h1>Project Details for Faculty ID: <%= projects.length > 0 ? projects[0].facultyID : "" %></h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Name</th>
-                    <th>Idea</th>
-                    <th>GroupID</th>
-                    <th>projectStatus</th>
-                <!-- Add more table headers for other project properties if needed -->
-            </tr>
-        </thead>
-        <tbody>
-            <% projects.forEach(function(project) { %>
-                <tr>
-                    <td><%= project.projectID %></td>
-                    <td><%= project.projectIdea %></td>
-                    <td><%= project.groupID %></td>
-                    <td><%= project.projectStatus %></td>
-                    <!-- Add more table cells for other project properties if needed -->
-                </tr>
-            <% }); %>
-        </tbody>
-    </table>
 </body>
 </html>
 

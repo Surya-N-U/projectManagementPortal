@@ -20,6 +20,31 @@
             </ul>
         <% }); %>
     </ul>
+    <h1>Project Details for Faculty ID: <%= projects.length > 0 ? projects[0].facultyID : "" %></h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                    <th>Idea</th>
+                    <th>GroupID</th>
+                    <th>projectStatus</th>
+                    <th>Latest weekly report</th>
+                    <th>Latest weekly review</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% projects.forEach(function(project) { %>
+                <tr>
+                    <td><%= project.projectID %></td>
+                    <td><%= project.projectIdea %></td>
+                    <td><%= project.groupID %></td>
+                    <td><%= project.projectStatus %></td>
+                    <td><%= project.latestWeeklyReport %></td>
+                    <td><%= project.latestFacultyReview %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
 </body>
 </html>
 
