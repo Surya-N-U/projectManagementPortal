@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-const { login, register } = require('./database.js');
+const { login, register, findGroup, getStudentsByFacultyID, Project} = require('./database.js');
 
 //Initializations for express
 const app = express();
@@ -17,6 +17,8 @@ main().catch(err => console.log(err));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
+app.set("views", path.join(__dirname, "../views"));
+app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
     res.sendFile('index.html', {root: path.join(__dirname, '../public')});
@@ -46,9 +48,25 @@ app.post('/register', async (req, res) => {
     res.send('entry registered');
 });
 
-app.get('/faculty', (req, res) => {
-        res.sendFile('faculty.html', {root: path.join(__dirname, '../public')});
+app.get('/faculty', async (req, res) => {
+    const facultyID = "113";
+    const groups = await getStudentsByFacultyID(facultyID);
+    console.log(groups);
+    res.render("faculty", {data : groups});
 });
+
+app.get('/projects/:facultyID', async (req, res) => {
+  try {
+    const facultyID = req.params.facultyID;
+    const projects = await Project.find({ facultyID: facultyID });
+    console.log(projects);
+    res.render('projects', { projects: projects });
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 
 app.listen(port, () => {
     console.log(`Started listening on port ${port}`);
