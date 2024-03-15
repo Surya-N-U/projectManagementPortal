@@ -70,6 +70,23 @@ app.get('/faculty/:facultyID', async (req, res) => {
   }
 });
 
+app.post('/facultyreview', async (req, res) => {
+    try {
+
+        
+        // Extract review data from the request body
+        const { prid, wn, review } = req.body;
+   
+        const weekreport = await WeeklyReport.findOneAndUpdate({projectID : prid, weekNumber : wn},{Review : review});
+
+
+        res.status(201).send('Review submitted successfully!');
+    } catch (error) {
+        console.error('Error submitting review:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+
 
 app.listen(port, () => {
     console.log(`Started listening on port ${port}`);
