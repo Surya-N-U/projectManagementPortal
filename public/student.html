@@ -1,77 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student</title>
-    
-</head>
-<body>
-    <center><h1>
-        Student details
-    </center></h1>
-    <h2>Pitch in your idea</h2>
-  
-    
-        <form id="ideaSub" method="post" action="/student">
-    <input type="text" name="prid"  placeholder="enter your project ID">
-    <br>
-    <input type="text" name="gid"  placeholder="enter your group ID">
-    <br>
-    <input type="text" name="fid"  placeholder="enter your faculty ID">
-    <br>
-    <input type="text" name="idea"  placeholder="enter your idea">
-    <br>
-    <input type="text" name="descr"  placeholder="enter the description">
-    <br>
-    <input type="submit">
-    </form>
-    
-    <center>
-        <h2>Weekly reports</h2>
-    </center>  
-    <h3>Give your weekly progress here</h3>
-    <form id="weeklyReport" method="post" action="/student/report">
-    <input type="text" name="prid"  placeholder="enter your project ID">
-    <br>
-    <input type="text" name="gid"  placeholder="enter your group ID">
-    <br>
-    <input type="text" name="fid"  placeholder="enter your faculty ID">
-    <br>
-    <input type="text" name="wn"  placeholder="enter your week number">
-            <br>
-    <input type="text" name="updates" placeholder="enter your update for this week ">
-            <br>
-     <button type="submit">SUBMIT</button>
-<br/><br/>
-    </form>
-<h1>View Review</h1>
-        
-    <button id="viewReviewBtn">View Review
-            </button>
-<div id="reviewContainer"></div>
-
-
-<script>
-    document.getElementById('viewReviewBtn').addEventListener('click', async () => {
-        try {
-            const pathName = window.location.pathname;
-            const parts = pathName.split('/');
-            const studentId = parts[parts.length-1];
-
-            const response = await fetch(`/viewreview/${studentId}`);
-
-           const reviewData = await response.json();
-            console.log(reviewData);
-
-            const reviewContainer = document.getElementById('reviewContainer');
-            reviewContainer.innerHTML = `<p><strong>Review:</strong> ${reviewData}</p>`;
-        } catch (error) {
-            console.error('Error fetching review:', error);
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            background-image: url(./image\ copy.png);
+            background-size:cover;
+            font-size: larger;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
         }
-    });
-</script>
 
-      
-    </body>
-    </html>
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        form input[type="text"], form button[type="submit"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        form button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: darkgreen;
+            color: #fff;
+            cursor: pointer;
+        }
+        form button[type="submit"]:hover{
+            background-color: green;
+        }
+        #viewReviewBtn {
+            margin: 20px auto; 
+            display: block;
+            background-color: darkgreen; 
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            width:150px;
+            height:50px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #reviewContainer {
+            margin-top: 20px;
+
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Student Details</h1>
+
+        <h2>Pitch in Your Idea</h2>
+        <form id="ideaSub" method="post" action="/student">
+            <input type="text" name="prid" placeholder="Enter your project ID">
+            <br>
+            <input type="text" name="gid" placeholder="Enter your group ID" >
+            <br>
+            <input type="text" name="fid" placeholder="Enter your faculty ID" >
+            <br>
+            <input type="text" name="idea" placeholder="Enter your idea">
+            <br>
+            <input type="text" name="descr" placeholder="Enter the description">
+            <button type="submit">Submit</button>
+        </form>
+
+        <h2>Weekly Reports</h2>
+        <h3>Give Your Weekly Progress Here</h3>
+        <form id="weeklyReport" method="post" action="/student/report">
+            <input type="text" name="prid" placeholder="Enter your project ID">
+            <br>
+            <input type="text" name="gid" placeholder="Enter your group ID">
+            <br>
+            <input type="text" name="fid" placeholder="Enter your faculty ID">
+            <br>
+            <input type="text" name="wn" placeholder="Enter your week number">
+            <br>
+            <input type="text" name="updates" placeholder="Enter your update for this week">
+            <br>
+            <button type="submit">Submit</button>
+        </form>
+
+        <h1>View Review</h1>
+        <button id="viewReviewBtn" class="centered-btn">View Review</button>
+        <div id="reviewContainer"></div>
+    </div>
+  
+    <script>
+        document.getElementById('viewReviewBtn').addEventListener('click', async () => {
+            try {
+                const pathName = window.location.pathname;
+                const parts = pathName.split('/');
+                const studentId = parts[parts.length - 1];
+
+                const response = await fetch(`/viewreview/${studentId}`);
+
+                const reviewData = await response.json();
+                console.log(reviewData);
+
+                const reviewContainer = document.getElementById('reviewContainer');
+                reviewContainer.innerHTML = `<p><strong>Review:</strong> ${reviewData}</p>`;
+            } catch (error) {
+                console.error('Error fetching review:', error);
+            }
+        });
+    </script>
+</body>
+
+</html>
