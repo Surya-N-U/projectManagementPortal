@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students by Faculty</title>
+</head>
+<body>
+    <h1>Students by Faculty</h1>
+    <h2>Faculty ID: <%= data.facultyID %></h2>
+    
+    <h3>Groups:</h3>
+    <ul>
+        <% data.groups.forEach(function(group) { %>
+            <li>Group ID: <%= group.groupID %></li>
+            <ul>
+                <% Object.keys(group.students).forEach(function(studentKey) { %>
+                    <li><%= studentKey %>: <%= group.students[studentKey] %></li>
+                <% }); %>
+            </ul>
+        <% }); %>
+    </ul>
+    <h1>Project Details for Faculty ID: <%= projects.length > 0 ? projects[0].facultyID : "" %></h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                    <th>Idea</th>
+                    <th>GroupID</th>
+                    <th>projectStatus</th>
+                    <th>Latest weekly report</th>
+                    <th>Latest weekly review</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% projects.forEach(function(project) { %>
+                <tr>
+                    <td><%= project.projectID %></td>
+                    <td><%= project.projectIdea %></td>
+                    <td><%= project.groupID %></td>
+                    <td><%= project.projectStatus %></td>
+                    <td><%= project.latestWeeklyReport %></td>
+                    <td><%= project.latestFacultyReview %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+        <h1>Enter Review</h1>
+        <form action="/facultyreview" method="POST">
+            <label for="prid">Project ID:</label>
+            <input type="text" id="prid" name="prid"><br><br>
+             
+            <label for="wn">Week Number : </label>
+            <input type="text" id="wn" name="wn"><br><br>
+    
+            <label for="review">Review:</label><br>
+            <textarea id="review" name="review" rows="4" cols="50"></textarea><br><br>
+    
+            <input type="submit" value="Submit Review">
+    </form>
+</body>
+</html>
+
