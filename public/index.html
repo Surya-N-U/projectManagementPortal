@@ -1,33 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Login</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="" />
-  <link rel="icon" href="favicon.png">
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <link rel="icon" href="favicon.png">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            font-size: larger;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('./login.jpeg');
+            background-size:cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 500px;
+           
+            margin: 50px auto;
+      
+     
+            background-color: rgba(255, 255, 255, 0.4); 
+            padding: 20px;
+            border-radius: 18px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: black;
+        }
+
+        label {
+            display: inline;
+            margin-bottom: 10px;
+        
+            
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="submit"],
+        input[type="radio"] {
+            vertical-align: middle; /* Align radio buttons with labels */
+        }
+
+        .radio-label {
+            margin-bottom: 10px;
+        }
+
+        input[type="radio"] {
+            transform: scale(1.5); /* Increase the scale to make radio buttons larger */
+            margin-right: 5px; /* Add some spacing between radio buttons and labels */
+        }
+
+        input[type="submit"] {
+            background-color:darkgreen;
+            color: #fff;
+            padding: 12px 12px; /* Increase padding to increase button size */
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: green;
+        }
+
+        #register {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: darkgreen;
+            text-decoration: none;
+        }
+
+        #register:hover {
+            color: green;
+        }
+    </style>
 </head>
 <body>
-    <h1>Login</h1>
-    <form id="login" method="post">
-        <input type="radio" id="student" name="type" value="Student" />
-            <label for="student">Student</label>
-        <input type="radio" id="faculty" name="type" value="Faculty" />
-            <label for="faculty">Faculty</label>
-        <input type="radio" id="admin" name="type" value="Admin" />
-            <label for="admin">Admin</label>
-        <br>
-        <label> ID : 
-            <input name="ID" placeholder="Enter your ID" />
-        </label>
-        <br>
-        <label> Password : 
-            <input name="password" placeholder="Enter your password" />
-        </label>
-        <input type="submit" />
-    </form>
-        <a href="/register" id="register">Sign UP?</a>
+    <div class="container">
+        <h1>Login</h1>
+        <form id="login" method="post">
+            <div class="radio-label">
+                <input type="radio" id="student" name="type" value="Student" />
+                <label for="student">Student</label>
+            </div>
+            <div class="radio-label">
+                <input type="radio" id="faculty" name="type" value="Faculty" />
+                <label for="faculty">Faculty</label>
+            </div>
+            <div class="radio-label">
+                <input type="radio" id="admin" name="type" value="Admin" />
+                <label for="admin">Admin</label>
+            </div>
+            <br />
+            <label for="ID">ID:</label>
+            <input type="text" id="ID" name="ID" placeholder="Enter your ID" />
+            <br />
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" />
+            <br />
+            <input type="submit" value="Login" />
+        </form>
+        <a href="/register" id="register">Sign Up?</a>
+    </div>
 </body>
-        
 </html>
-
