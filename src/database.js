@@ -24,12 +24,12 @@ const groupSchema = new mongoose.Schema({
 });
 
 const projectSchema = new mongoose.Schema({
-    projectID : {type : String, required:true},
+    projectID : {type : String, required:true,unique:true},
     facultyID : String,
     groupID : String,
     projectIdea : String,
     projectStatus : String,
-    weeklyReportsID : String,
+    projectDescription : String,
     latestFacultyReview : String,
     latestWeeklyReport : String
 });
@@ -41,14 +41,15 @@ const weeklyReportSchema = new mongoose.Schema({
     weekNumber : Number,
     Report : String,
     Review : String,
-    date : Date,
+    reportDate : Date,
+    reviewDate : Date
 });
 
 const Student = mongoose.model('Student', studentSchema);
 const Faculty = mongoose.model('Faculty', facultySchema);
 const Group = mongoose.model('Group', groupSchema);
 const Project = mongoose.model('Project', projectSchema);
-const WeeklyReport = mongoose.model('WeeklyReport', projectSchema);
+const WeeklyReport = mongoose.model('WeeklyReport', weeklyReportSchema);
 
 const register = (req) => {
     if(req.body.type == "Student") {
@@ -132,5 +133,39 @@ async function getStudentsByFacultyID(facultyID) {
   }
 }
 
+const addIdea=async(req,res)=>{
+    let newIdea=new Project({
+    projectID : req.body.prid,
+    groupID : req.body.gid,
+    facultyID:req.body.fid,
+    projectIdea:req.body.idea,
+    projectDescription:req.body.descr,
+    projectStatus : "Pending"
+});
 
-module.exports = { login, register, findGroup, getStudentsByFacultyID, Project, WeeklyReport };
+newIdea.save();
+}
+
+const addUpdate=async(req,res)=>{
+    let newUpdate=new WeeklyReport({
+    projectID : req.body.prid,
+    groupID : req.body.gid,
+    facultyID:req.body.fid,
+    weekNumber : req.body.wn,
+    Report:req.body.updates,
+    reportDate : new Date() 
+});
+
+newUpdate.save();
+
+}
+
+const findReview = async (studentId) => {
+    const student = await Student.findOne({ID : studentId});
+    console.log(student);
+    const review = await WeeklyReport.find({groupID : student.groupID},{Review:1,_id:0});
+    return review;
+}
+
+
+module.exports = { login, register, findGroup, getStudentsByFacultyID, Project, WeeklyReport ,addIdea,addUpdate, findReview};

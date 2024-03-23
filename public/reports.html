@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report</title>
+</head>
+<body>
+    <center>
+        <h2>Weekly reports</h2>
+    </center>  
+    <h3>Give your weekly progress here</h3>
+    <form method="post">
+    <input type="text" name="updates" placeholder=enter your update for this week ">
+     <button type="submit">SUBMIT</button>
+<br/><br/>
+<h1>View Review</h1>
+<button id="viewReviewBtn">View Review</button>
+
+<div id="reviewContainer"></div>
+
+
+<script>
+    document.getElementById('viewReviewBtn').addEventListener('click', async () => {
+        try {
+            const studentId = '107'; // Replace with actual student ID
+
+            const response = await fetch(`/view-review/${studentId}`);
+            const reviewData = await response.json();
+
+            // Display review data in the reviewContainer
+            const reviewContainer = document.getElementById('reviewContainer');
+            reviewContainer.innerHTML = `<p><strong>Review:</strong> ${reviewData.review}</p>`;
+        } catch (error) {
+            console.error('Error fetching review:', error);
+        }
+    });
+</script>
+
+</body>
+</html>
