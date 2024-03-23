@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+       
+          /* Funky button styles */
+          .funky-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #FFFFFF;
+            background-color:brown; /* Orange */
+            border-radius: 25px;
+            border: 2px solid #FFFFFF;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .funky-button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #FFFFFF;
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        .funky-button:hover::before {
+            transform: scaleX(1);
+            transform-origin: right;
+        }
+        .funky-button:hover {
+            background-color: goldenrod; /* Tomato */
+            transform: translateY(-2px);
+        }
+        body {
+            background-image: url('./project.jpeg');
+            background-size:cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="text-center mb-4">
+                    <h1 class="mb-3">PROJECT MANAGEMENT SYSTEM</h1>
+                </div>
+                <div class="text-center mb-3">
+                    <a href="./index.html" class="funky-button">Login</a>
+                    <a href="./register.html" class="funky-button">Register</a>
+                </div>
+            </div>
+        </div>
+        </div>
+   
+                  
+           
+    
+    <!-- Bootstrap JS and dependencies (optional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
