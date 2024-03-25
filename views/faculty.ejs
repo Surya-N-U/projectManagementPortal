@@ -4,32 +4,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Students by Faculty</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+      
+        th, td {
+            border: 5px double;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: inline-block;
+            width: 120px;
+        }
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: darkgreen;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
+   <center>
     <h1>Students by Faculty</h1>
+   </center>
     <h2>Faculty ID: <%= data.facultyID %></h2>
     
-    <h3>Groups:</h3>
-    <ul>
-        <% data.groups.forEach(function(group) { %>
-            <li>Group ID: <%= group.groupID %></li>
-            <ul>
+    <u><b><h1>Groups:</h1></b></u>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Group ID</th>
+                <th colspan="2">Students</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.groups.forEach(function(group) { %>
+                <tr>
+                    <td rowspan="<%= Object.keys(group.students).length + 1 %>"><%= group.groupID %></td>
+                    <!-- <td>Student Name</td> -->
+                    <!-- <td>Student ID</td> -->
+                </tr>
                 <% Object.keys(group.students).forEach(function(studentKey) { %>
-                    <li><%= studentKey %>: <%= group.students[studentKey] %></li>
+                    <tr>
+                        <td><%= studentKey %></td>
+                        <td><%= group.students[studentKey] %></td>
+                    </tr>
                 <% }); %>
-            </ul>
-        <% }); %>
-    </ul>
-    <h1>Project Details for Faculty ID: <%= projects.length > 0 ? projects[0].facultyID : "" %></h1>
+            <% }); %>
+        </tbody>
+    </table>
+    <u><b>
+        <h1>Project Details for Faculty ID: <%= projects.length > 0 ? projects[0].facultyID : "" %></h1>
+    </b></u>
     <table border="1">
         <thead>
             <tr>
                 <th>Name</th>
-                    <th>Idea</th>
-                    <th>GroupID</th>
-                    <th>projectStatus</th>
-                    <th>Latest weekly report</th>
-                    <th>Latest weekly review</th>
+                <th>Idea</th>
+                <th>GroupID</th>
+                <th>projectStatus</th>
+                <th>Latest weekly report</th>
+                <th>Latest weekly review</th>
             </tr>
         </thead>
         <tbody>
@@ -45,19 +114,20 @@
             <% }); %>
         </tbody>
     </table>
+    <u><b>
         <h1>Enter Review</h1>
-        <form action="/facultyreview" method="POST">
-            <label for="prid">Project ID:</label>
-            <input type="text" id="prid" name="prid"><br><br>
+    </b></u>
+    <form action="/facultyreview" method="POST">
+        <label for="prid">Project ID:</label>
+        <input type="text" id="prid" name="prid"><br><br>
              
-            <label for="wn">Week Number : </label>
-            <input type="text" id="wn" name="wn"><br><br>
+        <label for="wn">Week Number : </label>
+        <input type="text" id="wn" name="wn"><br><br>
     
-            <label for="review">Review:</label><br>
-            <textarea id="review" name="review" rows="4" cols="50"></textarea><br><br>
+        <label for="review">Review:</label><br>
+        <textarea id="review" name="review" rows="4" cols="50"></textarea><br><br>
     
-            <input type="submit" value="Submit Review">
+        <input type="submit" value="Submit Review">
     </form>
 </body>
 </html>
-
